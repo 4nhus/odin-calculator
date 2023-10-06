@@ -15,8 +15,8 @@ function divide(a, b) {
 }
 
 function operate(a, operator, b) {
-    a = parseInt(a);
-    b = parseInt(b);
+    a = parseFloat(a);
+    b = parseFloat(b);
 
     switch (operator) {
         case '+':
@@ -38,6 +38,7 @@ let operator = '';
 let b = '';
 const displayDiv = document.getElementById('display');
 
+// FORGOT TO ADD 0
 function updateDisplay(button) {
     if (a === '') {
         // Only the -, numbers do anything
@@ -57,20 +58,30 @@ function updateDisplay(button) {
                 if (button === '+') {
                     a = '';
                 } else if (!isNaN(button)) {
-                    a += button;
+                    if (button === '0') {
+                        a = button;
+                    } else {
+                        a += button;
+                    }
                 }
             } else { // All operators, numbers work
-                if (button !== '=' && isNaN(button)) {
-                    operator = button;
+                if (isNaN(button)) {
+                    if (button !== '=') {
+                        operator = button;
+                    }
                 } else {
                     a += button;
                 }
             }
         } else { // All operators, numbers work
-            if (button !== '=' && isNaN(button)) {
-                operator = button;
-            } else {
+            if (isNaN(button)) {
+                if (button !== '=') {
+                    operator = button;
+                }
+            } else if (a !== '0') {
                 a += button;
+            } else {
+                a = button;
             }
         }
     } else if (b === '') { // a and operator not empty
@@ -83,8 +94,10 @@ function updateDisplay(button) {
             } else if (operator === '+') { // Only makes operator - if b is negative or operator is +
                 operator = '-';
             }
-        } else if (button !== '=' && isNaN(button)) {
-            operator = button;
+        } else if (isNaN(button)) {
+            if (button !== '=') {
+                operator = button;
+            }
         } else {
             b = button;
         }
@@ -93,17 +106,25 @@ function updateDisplay(button) {
             b = b.substring(0, b.length - 1);
         } else if (button === '=') { // Only works if b is not '-'
             if (b !== '-') {
-                a = operate(a, operator, b);
-                operator = '';
-                b = '';
+                if (b === '0' && operator === '/') {
+                    alert("Fool! Did you not know that you can't divide by zero?");
+                } else {
+                    a = operate(a, operator, b).toString();
+                    operator = '';
+                    b = '';
+                }
             }
         } else if (isNaN(button)) { // Only works if b is '-'
-            if (b === '-') {
+            if (b === '-' && button !== '-') {
                 operator = button;
                 b = '';
+            } else if (b === '0' && button === '-') {
+                b = '-';
             }
-        } else {
+        } else if (b !== '0') {
             b += button;
+        } else {
+            b = button;
         }
     }
 
