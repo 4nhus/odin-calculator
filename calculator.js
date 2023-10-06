@@ -30,11 +30,12 @@ function operate(a, operator, b) {
     }
 }
 
-function calculate(display) {
+function calculate() {
 
 }
 
 let display = '';
+let operator = '';
 const displayDiv = document.getElementById('display');
 
 const buttons = document.querySelectorAll('button');
@@ -47,16 +48,22 @@ buttons.forEach(button => {
             });
         } else if (button.id === '=') {
             button.addEventListener('click', () => {
-                display = calculate(display);
-                displayDiv.textContent = display;
+                if (display !== '') {
+                    display = calculate();
+                    displayDiv.textContent = display;
+                }
             });
         } else {
             button.addEventListener('click', () => {
                 if (display !== '') {
-                    if (isNaN(display[display.length - 1])) {
-                        display = display.substring(0, display.length - 1).concat(button.textContent);
+                    if (operator !== '') {
+                        if (isNaN(display[display.length - 1])) {
+                            display = display.substring(0, display.length - 1).concat(button.textContent);
+                            operator = button.textContent;
+                        }
                     } else {
                         display += button.textContent;
+                        operator = button.textContent;
                     }
                     displayDiv.textContent = display;
                 }
