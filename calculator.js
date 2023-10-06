@@ -14,6 +14,10 @@ function divide(a, b) {
     return a / b;
 }
 
+function modulo(a, b) {
+    return a % b;
+}
+
 function operate(a, operator, b) {
     a = parseFloat(a);
     b = parseFloat(b);
@@ -30,6 +34,8 @@ function operate(a, operator, b) {
             break;
         case '/':
             return +divide(a, b).toFixed(10);
+        case '%':
+            return +modulo(a, b).toFixed(10);
     }
 }
 
@@ -155,6 +161,7 @@ buttons.forEach(button => {
 const validKeys = Array.from(document.querySelectorAll('button')).map(button => button.id);
 document.addEventListener('keydown', e => {
     const key = e.key === 'Enter' ? '=' : e.key;
+
     if (validKeys.includes(key)) {
         updateDisplay(key);
     }
