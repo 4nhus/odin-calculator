@@ -3,28 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Calculator</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
-<div id="display"></div>
-<button id="0">0</button>
-<button id="1">1</button>
-<button id="2">2</button>
-<button id="3">3</button>
-<button id="4">4</button>
-<button id="5">5</button>
-<button id="6">6</button>
-<button id="7">7</button>
-<button id="8">8</button>
-<button id="9">9</button>
-<button id="+">+</button>
-<button id="-">-</button>
-<button id="x">x</button>
-<button id="/">/</button>
-<button id="=">=</button>
-<button id="%">%</button>
-<button id=".">.</button>
-<button id="clear">Clear</button>
-<button id="backspace">Backspace</button>
+<div id="calculator">
+    <div id="display"></div>
+    <div class="row">
+        <button id="clear" class="dark-grey">AC</button>
+        <button id="backspace" class="dark-grey">⌫</button>
+        <button id="%" class="dark-grey">%</button>
+        <button id="/" class="orange">/</button>
+    </div>
+    <div class="row">
+        <button id="7" class="grey">7</button>
+        <button id="8" class="grey">8</button>
+        <button id="9" class="grey">9</button>
+        <button id="x" class="orange">x</button>
+    </div>
+    <div class="row">
+        <button id="4" class="grey">4</button>
+        <button id="5" class="grey">5</button>
+        <button id="6" class="grey">6</button>
+        <button id="-" class="orange">-</button>
+    </div>
+    <div class="row">
+        <button id="1" class="grey">1</button>
+        <button id="2" class="grey">2</button>
+        <button id="3" class="grey">3</button>
+        <button id="+" class="orange">+</button>
+    </div>
+    <div class="row">
+        <button id="0" class="grey">0</button>
+        <button id="." class="grey">.</button>
+        <button id="=" class="orange">=</button>
+    </div>
+</div>
+
 </body>
 <script src="calculator.js"></script>
 </html>
