@@ -1,0 +1,42 @@
+* {
+    font-family: "Helvetica Neue", sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#calculator {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+}
+
+button {
+    flex: auto;
+    border-color: rgb(80, 80, 82);
+    border-style: solid;
+    border-width: thin;
+}
+
+.grey {
+    background-color: rgb(123, 123, 125);
+}
+
+.dark-grey {
+    background-color: rgb(97, 97, 99);
+}
+
+#display {
+    background-color: rgb(80, 80, 82);
+
+}
+
+.orange {
+    background-color: rgb(242, 163, 60);
+}
