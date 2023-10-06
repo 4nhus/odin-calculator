@@ -43,15 +43,19 @@ const displayDiv = document.getElementById('display');
 const buttons = document.querySelectorAll('button');
 buttons.forEach(button => {
     button.addEventListener('click', () => {
-        if (isNaN(button.id)) {
-            if (button.id === 'clear') {
+        switch (button.id) {
+            case 'clear':
                 display = '';
                 operator = '';
-            } else if (button.id === '=') {
+                break;
+            case '=':
                 display !== '' ? calculate() : '';
                 operator = '';
-            } else {
-                if (display !== '') {
+                break;
+            case '+':
+                if (display === '-') {
+                    display = '';
+                } else if (display !== '') {
                     if (operator !== '') {
                         if (isNaN(display[display.length - 1])) {
                             display = display.substring(0, display.length - 1).concat(button.textContent);
@@ -62,9 +66,40 @@ buttons.forEach(button => {
                         operator = button.textContent;
                     }
                 }
-            }
-        } else {
-            display += button.textContent;
+                break;
+            case '-':
+                if (display === '') {
+                    display = '-';
+                } else if ((display[0] === '-' && display.length > 1) || display[0] !== '-') {
+                    if (operator !== '') {
+                        if (isNaN(display[display.length - 1])) {
+                            display = display.substring(0, display.length - 1).concat(button.textContent);
+                            operator = button.textContent;
+                        }
+                    } else {
+                        display += button.textContent;
+                        operator = button.textContent;
+                    }
+                }
+                break;
+            case 'x':
+            case '/':
+                if (display !== '') {
+                    if ((display[0] === '-' && display.length > 1) || display[0] !== '-') {
+                        if (operator !== '') {
+                            if (isNaN(display[display.length - 1])) {
+                                display = display.substring(0, display.length - 1).concat(button.textContent);
+                                operator = button.textContent;
+                            }
+                        } else {
+                            display += button.textContent;
+                            operator = button.textContent;
+                        }
+                    }
+                }
+                break;
+            default:
+                display += button.textContent;
         }
 
         displayDiv.textContent = display;
