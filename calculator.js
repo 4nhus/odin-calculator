@@ -25,13 +25,10 @@ function operate(a, operator, b) {
     switch (operator) {
         case '+':
             return +add(a, b).toFixed(10);
-            break;
         case '-':
             return +subtract(a, b).toFixed(10);
-            break;
         case 'x':
             return +multiply(a, b).toFixed(10);
-            break;
         case '/':
             return +divide(a, b).toFixed(10);
         case '%':
@@ -56,7 +53,7 @@ function updateDisplay(button) {
         operator = '';
         b = '';
     } else if (operator === '') { // a is not empty
-        if (button === 'Backspace') {
+        if (button === 'backspace') {
             a = a.substring(0, a.length - 1);
         } else if (a[0] === '-') {
             // Only  +, numbers do anything
@@ -97,7 +94,7 @@ function updateDisplay(button) {
             }
         }
     } else if (b === '') { // a and operator not empty
-        if (button === 'Backspace') {
+        if (button === 'backspace') {
             operator = '';
         } else if (button === '-') {
             // Only makes b negative if operator is x, /
@@ -116,7 +113,7 @@ function updateDisplay(button) {
             b = button;
         }
     } else { // All strings not empty
-        if (button === 'Backspace') {
+        if (button === 'backspace') {
             b = b.substring(0, b.length - 1);
         } else if (button === '=') {
             if (b !== '-') {
@@ -160,7 +157,15 @@ buttons.forEach(button => {
 
 const validKeys = Array.from(document.querySelectorAll('button')).map(button => button.id);
 document.addEventListener('keydown', e => {
-    const key = e.key === 'Enter' ? '=' : e.key;
+    let key = e.key;
+
+    if (e.key === 'Backspace') {
+        key = 'backspace';
+    } else if (e.key === 'Enter') {
+        key = '=';
+    } else if (e.key === 'Escape') {
+        key = 'clear';
+    }
 
     if (validKeys.includes(key)) {
         updateDisplay(key);
