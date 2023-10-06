@@ -1,24 +1,29 @@
 * {
-    font-family: "Helvetica Neue", sans-serif;
+    font-family: "Helvetica", sans-serif;
+    color: rgb(235, 235, 235);
+    font-weight: lighter;
 }
 
 body {
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 
 #calculator {
     display: flex;
     flex-direction: column;
+    min-width: 300px;
+    min-height: 500px;
+    border-radius: 20px;
 }
 
 .row {
     display: flex;
+    flex-grow: 1;
 }
 
 button {
-    flex: auto;
+    flex-grow: 1;
     border-color: rgb(80, 80, 82);
     border-style: solid;
     border-width: thin;
@@ -33,6 +38,7 @@ button {
 }
 
 #display {
+    flex-grow: 2;
     background-color: rgb(80, 80, 82);
 
 }
