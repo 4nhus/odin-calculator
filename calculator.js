@@ -15,6 +15,9 @@ function divide(a, b) {
 }
 
 function operate(a, operator, b) {
+    a = parseInt(a);
+    b = parseInt(b);
+
     switch (operator) {
         case '+':
             return add(a, b);
@@ -30,87 +33,86 @@ function operate(a, operator, b) {
     }
 }
 
-function calculate() {
-    display.count()
-    const numbers = display.split(/[+-\/x]/g).map(number => +number);
-    const result = operate(numbers[0], operator, numbers[1]);
-    return result;
-}
-
-let display = '';
+let a = '';
 let operator = '';
+let b = '';
 const displayDiv = document.getElementById('display');
 
-const buttons = document.querySelectorAll('button');
+function updateDisplay(button) {
+    if (a === '') {
+        // Only the -, numbers do anything
+        if (button === '-' || !isNaN(button)) {
+            a = button;
+        }
+    } else if (button === 'clear') {
+        a = '';
+        operator = '';
+        b = '';
+    } else if (operator === '') { // a is not empty
+        if (button === 'backspace') {
+            a = a.substring(0, a.length - 1);
+        } else if (a[0] === '-') {
+            // Only  +, numbers do anything
+            if (a.length === 1) {
+                if (button === '+') {
+                    a = '';
+                } else if (!isNaN(button)) {
+                    a += button;
+                }
+            } else { // All operators, numbers work
+                if (button !== '=' && isNaN(button)) {
+                    operator = button;
+                } else {
+                    a += button;
+                }
+            }
+        } else { // All operators, numbers work
+            if (button !== '=' && isNaN(button)) {
+                operator = button;
+            } else {
+                a += button;
+            }
+        }
+    } else if (b === '') { // a and operator not empty
+        if (button === 'backspace') {
+            operator = '';
+        } else if (button === '-') {
+            // Only makes b negative if operator is x, /
+            if (operator === 'x' || operator === '/') {
+                b = '-';
+            } else if (operator === '+') { // Only makes operator - if b is negative or operator is +
+                operator = '-';
+            }
+        } else if (button !== '=' && isNaN(button)) {
+            operator = button;
+        } else {
+            b = button;
+        }
+    } else { // All strings not empty
+        if (button === 'backspace') {
+            b = b.substring(0, b.length - 1);
+        } else if (button === '=') { // Only works if b is not '-'
+            if (b !== '-') {
+                a = operate(a, operator, b);
+                operator = '';
+                b = '';
+            }
+        } else if (isNaN(button)) { // Only works if b is '-'
+            if (b === '-') {
+                operator = button;
+                b = '';
+            }
+        } else {
+            b += button;
+        }
+    }
 
-// Need to fix negative button logic
+    displayDiv.textContent = `${a} ${operator} ${b}`;
+}
+
+const buttons = document.querySelectorAll('button');
 buttons.forEach(button => {
     button.addEventListener('click', () => {
-        switch (button.id) {
-            case 'backspace':
-                display = display.substring(0, display.length - 1);
-                break;
-            case 'clear':
-                display = '';
-                operator = '';
-                break;
-            case '=':
-                display = operator !== '' ? calculate() : display;
-                operator = '';
-                break;
-            case '+':
-                if (display === '-') {
-                    display = '';
-                } else if (display !== '') {
-                    if (operator !== '') {
-                        if (isNaN(display[display.length - 1])) {
-                            display = display.substring(0, display.length - 1).concat(button.textContent);
-                            operator = button.textContent;
-                        }
-                    } else {
-                        display += button.textContent;
-                        operator = button.textContent;
-                    }
-                }
-                break;
-            case '-':
-                if (display === '') {
-                    display = '-';
-                } else if ((display[0] === '-' && display.length > 1) || display[0] !== '-') {
-                    if (operator !== '') {
-                        if (isNaN(display[display.length - 1])) {
-                            display = display.substring(0, display.length - 1).concat(button.textContent);
-                            operator = button.textContent;
-                        }
-                    } else {
-                        display += button.textContent;
-                        operator = button.textContent;
-                    }
-                }
-                break;
-            case 'x':
-            case '/':
-                if (display !== '') {
-                    if ((display[0] === '-' && display.length > 1) || display[0] !== '-') {
-                        if (operator !== '') {
-                            if (isNaN(display[display.length - 1])) {
-                                display = display.substring(0, display.length - 1).concat(button.textContent);
-                                operator = button.textContent;
-                            }
-                        } else {
-                            display += button.textContent;
-                            operator = button.textContent;
-                        }
-                    }
-                }
-                break;
-            default:
-                display += button.textContent;
-        }
-
-        displayDiv.textContent = display;
+        updateDisplay(button.id);
     });
 });
-
-
-// b, operator, display =
