@@ -31,6 +31,7 @@ function operate(a, operator, b) {
 }
 
 function calculate() {
+    display.count()
     const numbers = display.split(/[+-\/x]/g).map(number => +number);
     const result = operate(numbers[0], operator, numbers[1]);
     return result;
@@ -41,15 +42,20 @@ let operator = '';
 const displayDiv = document.getElementById('display');
 
 const buttons = document.querySelectorAll('button');
+
+// Need to fix negative button logic
 buttons.forEach(button => {
     button.addEventListener('click', () => {
         switch (button.id) {
+            case 'backspace':
+                display = display.substring(0, display.length - 1);
+                break;
             case 'clear':
                 display = '';
                 operator = '';
                 break;
             case '=':
-                display !== '' ? calculate() : '';
+                display = operator !== '' ? calculate() : display;
                 operator = '';
                 break;
             case '+':
