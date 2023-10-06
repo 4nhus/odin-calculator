@@ -20,16 +20,16 @@ function operate(a, operator, b) {
 
     switch (operator) {
         case '+':
-            return add(a, b);
+            return +add(a, b).toFixed(10);
             break;
         case '-':
-            return subtract(a, b);
+            return +subtract(a, b).toFixed(10);
             break;
         case 'x':
-            return multiply(a, b);
+            return +multiply(a, b).toFixed(10);
             break;
         case '/':
-            return divide(a, b);
+            return +divide(a, b).toFixed(10);
     }
 }
 
@@ -38,12 +38,12 @@ let operator = '';
 let b = '';
 const displayDiv = document.getElementById('display');
 
-// FORGOT TO ADD 0
 function updateDisplay(button) {
-    if (a === '') {
-        // Only the -, numbers do anything
+    if (a === '') {        // Only the -, .,  numbers do anything
         if (button === '-' || !isNaN(button)) {
             a = button;
+        } else if (button === '.') {
+            a = '0.';
         }
     } else if (button === 'clear') {
         a = '';
@@ -63,10 +63,14 @@ function updateDisplay(button) {
                     } else {
                         a += button;
                     }
+                } else if (button === '.') {
+                    a = '0.';
                 }
             } else { // All operators, numbers work
                 if (isNaN(button)) {
-                    if (button !== '=') {
+                    if (button === '.' && !a.includes('.')) {
+                        a += button;
+                    } else if (button !== '=' && button !== '.') {
                         operator = button;
                     }
                 } else {
@@ -75,7 +79,9 @@ function updateDisplay(button) {
             }
         } else { // All operators, numbers work
             if (isNaN(button)) {
-                if (button !== '=') {
+                if (button === '.' && !a.includes('.')) {
+                    a += button;
+                } else if (button !== '=' && button !== '.') {
                     operator = button;
                 }
             } else if (a !== '0') {
@@ -95,7 +101,9 @@ function updateDisplay(button) {
                 operator = '-';
             }
         } else if (isNaN(button)) {
-            if (button !== '=') {
+            if (button === '.') {
+                b = '0.';
+            } else if (button !== '=') {
                 operator = button;
             }
         } else {
@@ -104,7 +112,7 @@ function updateDisplay(button) {
     } else { // All strings not empty
         if (button === 'backspace') {
             b = b.substring(0, b.length - 1);
-        } else if (button === '=') { // Only works if b is not '-'
+        } else if (button === '=') {
             if (b !== '-') {
                 if (b === '0' && operator === '/') {
                     alert("Fool! Did you not know that you can't divide by zero?");
@@ -114,12 +122,18 @@ function updateDisplay(button) {
                     b = '';
                 }
             }
-        } else if (isNaN(button)) { // Only works if b is '-'
-            if (b === '-' && button !== '-') {
+        } else if (isNaN(button)) {
+            if (b === '-' && button !== '-' && button !== '.') {
                 operator = button;
                 b = '';
             } else if (b === '0' && button === '-') {
                 b = '-';
+            } else if (button === '.' && !b.includes('.')) {
+                if (b === '-') {
+                    b = '0.';
+                } else {
+                    b += button;
+                }
             }
         } else if (b !== '0') {
             b += button;
