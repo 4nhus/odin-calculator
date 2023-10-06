@@ -21,7 +21,7 @@ function operate(a, operator, b) {
         case "-":
             return subtract(a,b);
             break;
-        case "*":
+        case "x":
             return multiply(a,b);
             break;
         case "/":
