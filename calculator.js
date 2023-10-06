@@ -31,7 +31,9 @@ function operate(a, operator, b) {
 }
 
 function calculate() {
-
+    const numbers = display.split(/[+-\/x]/g).map(number => +number);
+    const result = operate(numbers[0], operator, numbers[1]);
+    return result;
 }
 
 let display = '';
@@ -40,21 +42,15 @@ const displayDiv = document.getElementById('display');
 
 const buttons = document.querySelectorAll('button');
 buttons.forEach(button => {
-    if (isNaN(button.id)) {
-        if (button.id === 'clear') {
-            button.addEventListener('click', () => {
+    button.addEventListener('click', () => {
+        if (isNaN(button.id)) {
+            if (button.id === 'clear') {
                 display = '';
-                displayDiv.textContent = display;
-            });
-        } else if (button.id === '=') {
-            button.addEventListener('click', () => {
-                if (display !== '') {
-                    display = calculate();
-                    displayDiv.textContent = display;
-                }
-            });
-        } else {
-            button.addEventListener('click', () => {
+                operator = '';
+            } else if (button.id === '=') {
+                display !== '' ? calculate() : '';
+                operator = '';
+            } else {
                 if (display !== '') {
                     if (operator !== '') {
                         if (isNaN(display[display.length - 1])) {
@@ -65,16 +61,14 @@ buttons.forEach(button => {
                         display += button.textContent;
                         operator = button.textContent;
                     }
-                    displayDiv.textContent = display;
                 }
-            });
-        }
-    } else {
-        button.addEventListener('click', () => {
+            }
+        } else {
             display += button.textContent;
-            displayDiv.textContent = display;
-        });
-    }
+        }
+
+        displayDiv.textContent = display;
+    });
 });
 
 
