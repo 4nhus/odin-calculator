@@ -10,3 +10,21 @@ function multiply(a, b) {
 function divide(a, b) {
     return a / b;
 }
+
+let a, b, operator;
+
+function operate(a, operator, b) {
+    switch (operator) {
+        case "+":
+            return add(a,b);
+            break;
+        case "-":
+            return subtract(a,b);
+            break;
+        case "*":
+            return multiply(a,b);
+            break;
+        case "/":
+            return divide(a,b);
+    }
+}
