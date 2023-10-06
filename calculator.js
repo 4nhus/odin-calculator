@@ -50,7 +50,7 @@ function updateDisplay(button) {
         operator = '';
         b = '';
     } else if (operator === '') { // a is not empty
-        if (button === 'backspace') {
+        if (button === 'Backspace') {
             a = a.substring(0, a.length - 1);
         } else if (a[0] === '-') {
             // Only  +, numbers do anything
@@ -91,7 +91,7 @@ function updateDisplay(button) {
             }
         }
     } else if (b === '') { // a and operator not empty
-        if (button === 'backspace') {
+        if (button === 'Backspace') {
             operator = '';
         } else if (button === '-') {
             // Only makes b negative if operator is x, /
@@ -110,7 +110,7 @@ function updateDisplay(button) {
             b = button;
         }
     } else { // All strings not empty
-        if (button === 'backspace') {
+        if (button === 'Backspace') {
             b = b.substring(0, b.length - 1);
         } else if (button === '=') {
             if (b !== '-') {
@@ -151,3 +151,11 @@ buttons.forEach(button => {
         updateDisplay(button.id);
     });
 });
+
+const validKeys = Array.from(document.querySelectorAll('button')).map(button => button.id);
+document.addEventListener('keydown', e => {
+    const key = e.key === 'Enter' ? '=' : e.key;
+    if (validKeys.includes(key)) {
+        updateDisplay(key);
+    }
+})
