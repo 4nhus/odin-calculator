@@ -150,8 +150,11 @@ function updateDisplay(button) {
 
 const buttons = document.querySelectorAll('button');
 buttons.forEach(button => {
+
     button.addEventListener('click', () => {
-        updateDisplay(button.id);
+        let id = button.id === 'Zero' ? '0' : button.id;
+
+        updateDisplay(id);
     });
 });
 
@@ -167,7 +170,7 @@ document.addEventListener('keydown', e => {
         key = 'clear';
     }
 
-    if (validKeys.includes(key)) {
+    if (validKeys.includes(key) || key === '0') {
         updateDisplay(key);
     }
 })
